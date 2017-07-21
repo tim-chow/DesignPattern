@@ -17,5 +17,5 @@
 
 ### UML类图
 
-![facade.jpg](http://timd.cn/content/images/2017/07/facade-1.png)
+![facade.jpg](http://timd.cn/content/images/2017/07/facade-2.png)
 
