@@ -17,6 +17,6 @@
 
 ---
 
-###UML¿‡Õº  
+### UML¿‡Õº  
 
-![command.png](http://timd.cn/content/images/2017/07/command.png)
+![command.png](http://timd.cn/content/images/2017/07/command-1.png)
