@@ -26,4 +26,4 @@
 
 ### UML¿‡Õº  
 
-![bridge.png](http://timd.cn/content/images/pictures/bridge.png)  
+![bridge.png](http://timd.cn/content/images/pictures/bridge-1.png)  
