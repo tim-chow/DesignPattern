@@ -19,7 +19,7 @@
 
 ### UMLÀàÍ¼  
 
-![interpreter.png](http://timd.cn/content/images/pictures/interpreter.png)  
+![interpreter-1.png](http://timd.cn/content/images/pictures/interpreter-1.png)  
 
 
 
