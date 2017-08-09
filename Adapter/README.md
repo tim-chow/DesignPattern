@@ -17,5 +17,4 @@
 
 ### UML类图
 
-![adapter.png](http://timd.cn/content/images/pictures/adapter.png)
-
+![adapter.png](http://timd.cn/content/images/pictures/adapter-1.png)  
