@@ -11,16 +11,16 @@
 ### 角色
 
 * Builder  
-一个抽象类或接口。该接口声明：*构建对象的各个组成部分的方法以及返回被构建的产品对象的方法*。**Builder不会涉及到构建<span style="color:green">过程</span>**  
-* ConcreteBuilder   
-实现Builder接口。每个具体建造者对应于对象的一种**表示**   
+一个抽象类或接口。抽象建造者角色需要定义：*构建对象的各个组成部分的方法 以及 返回被构建的产品对象的方法*。**Builder不会涉及到构建<span style="color:green">过程</span>**  
+* ConcreteBuilder   
+继承或实现抽象建造者角色。每个具体建造者 对应于 对象的一种<span style="color:red">**表示**</span>   
 * Director   
-负责定义对象的各个组成部分的构建顺序
+负责定义 **对象的各个组成部分的*构建顺序***
 * Product    
-要被创建对象的类
+要被创建对象的*复杂类*
 
 ---
 
 ## UML类图  
 
-![builder.png](http://timd.cn/content/images/2017/07/builder.png)
+![builder.png](http://timd.cn/content/images/pictures/builder.png)
