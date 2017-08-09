@@ -23,4 +23,4 @@
 
 ## UML类图  
 
-![builder.png](http://timd.cn/content/images/pictures/builder.png)
+![builder.png](http://timd.cn/content/images/pictures/builder-1.png)
