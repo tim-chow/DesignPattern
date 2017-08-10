@@ -8,11 +8,15 @@
 ### 角色
 
 * Client  
+
 * Command  
 抽象命令角色  
+
 * ConcreteCommand  
 具体命令角色。继承或实现抽象命令角色。  
+
 * receiver  
+
 * invoker  
 
 ---
