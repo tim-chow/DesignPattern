@@ -8,21 +8,13 @@
 ### 角色
 
 * Client  
-
-* Command    
-
-抽象命令角色  
-
+* Command
 * ConcreteCommand  
-
-具体命令角色。继承或实现抽象命令角色。  
-
 * receiver  
-
 * invoker  
 
 ---
 
 ### UML类图  
 
-![command.png](http://timd.cn/content/images/2017/07/command.png)
+![command.png](http://timd.cn/content/images/2017/07/command.png)  
