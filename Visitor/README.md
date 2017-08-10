@@ -17,7 +17,7 @@
 * ObjectStructure   
 对象结构。本质上是一个集合，需要提供增加或移除元素对象的方法
 * Element      
-抽象元素对象。需要定义accept方法  
+抽象元素角色。需要定义accept方法  
 * ConcreteElement    
 继承或实现Element  
 
