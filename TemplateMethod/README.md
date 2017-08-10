@@ -6,14 +6,12 @@
 ### 角色  
 
 * 抽象类  
-其中定义了*实现算法框架*的**模版方法**（应该是final的）  
-* 实现类   
+定义了*实现算法框架*的**模版方法**（应该是final的）  
+* 实现类     
 ***按需***重写抽象类中的某些方法，以完成完整的算法  
 
 ---
 
 ### UML类图  
 
-![tempaltemethod.png](http://timd.cn/content/images/pictures/templatemethod.png)
- 
-
+![tempaltemethod.png](http://timd.cn/content/images/pictures/templatemethod.png)  
