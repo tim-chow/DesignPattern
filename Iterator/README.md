@@ -30,4 +30,4 @@
 
 外禀迭代子：  
 
-![iterator-1.png](http://timd.cn/content/images/pictures/iterator-1.png)  
+![iterator-1.png](http://timd.cn/content/images/pictures/iterator-3.png)  
