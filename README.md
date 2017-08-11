@@ -38,3 +38,9 @@
         * 备忘录模式（Memento）
         * 解释器模式（Interpreter） 
 		
+---
+
+### 作者
+
+* [timchow](http://timd.cn)  
+* [CanyellWang](https://github.com/CanyellWang)  
