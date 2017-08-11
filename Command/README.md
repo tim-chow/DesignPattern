@@ -1,22 +1,20 @@
-### ¼ò½é  
-¿Í»§¶Ë£¨*client*£¬**¿Í»§¶ËÊÇÃüÁîµÄÇëÇóÕß**£©½«ÃüÁî·â×°³ÉÃüÁî¶ÔÏó£¨*command*£¬**ÃüÁî¶ÔÏó³ÖÓÐ½ÓÊÕÕßµÄÒýÓÃ£¬Í¨¹ýµ÷ÓÃ½ÓÊÕÕßµÄ¹¦ÄÜÀ´Íê³ÉÃüÁîµÄÖ´ÐÐ**£©£¬²¢¸øÃüÁî¶ÔÏóÉèÖÃ½ÓÊÕÕß£¨*receiver*£¬**½ÓÊÕÕßÊÇÕæÕýÖ´ÐÐÃüÁîµÄ¶ÔÏó**£©£¬È»ºó½«ÃüÁî¶ÔÏó½»¸øµ÷ÓÃÕß£¨*invoker*£¬**µ÷ÓÃÕß¿ÉÒÔ³ÖÓÐ¶à¸öÃüÁî¶ÔÏó£¬Ïàµ±ÓÚÃüÁî¶ÔÏóµÄÈë¿Ú**£©£¬***ÒÔºó ¿Í»§¶Ë Í¨¹ýµ÷ÓÃ µ÷ÓÃÕß À´Ö´ÐÐÃüÁî£¬¶ø²»Óë ÃüÁî¶ÔÏó Ö±½Ó½»»¥***£¨µ÷ÓÃÂ·¾¶Îª£ºclient =&gt;  invoker =&gt; command =&gt; receiver£©  
-¿ÉÒÔ¿´³ö£¬ÃüÁîÄ£Ê½µÄÖ÷ÒªÄ¿µÄÊÇ£º½«ÃüÁîµÄÇëÇóÕß£¨client£©ºÍÃüÁîµÄÖ´ÐÐÕß£¨receiver£©½øÐÐ½âñî¡£½âñîÖ®ºó£¬¿ÉÒÔ*¶ÔÇëÇó½øÐÐÅÅ¶Ó*¡¢*¼ÇÂ¼ÇëÇóÈÕÖ¾*¡¢*³·ÏúÇëÇó*µÈ¡£  
-±ÈÈç£¬ÈË²Ù×÷¿Õµ÷µÄ¹ý³ÌÊÇ£ºÈËÔÚÒ£¿ØÆ÷ÉÏÊäÈë¿ª»ú¡¢ÖÆÀä¡¢¹Ø»úµÈÃüÁî£»Ò£¿ØÆ÷Í¨¹ýºìÍâÏß°ÑÃüÁî·¢ËÍ¸ø¿Õµ÷£¬È»ºó¿Õµ÷Ö´ÐÐÃüÁî¡£ºÜÏÔÈ»£¬ÈËÊÇclient£¬Ã¿¸ö¹¦ÄÜ¶¼ÊÇÒ»¸öcommand£¬Ò£¿ØÆ÷ÊÇinvoker£¬¿Õµ÷ÊÇreceiver¡£ÐèÒª¶îÍâ×¢ÒâµÄÊÇ£¬Ò£¿ØÆ÷ÊÇÃüÁîµÄÎ¨Ò»Èë¿Ú£¬ÈËÖ»»áÓëÒ£¿ØÆ÷½øÐÐ½»»¥£¬¶ø²»»áÓë¿Õµ÷Ö±½Ó½»»¥£¬Õâ¾ÍÊÇÃüÁîÄ£Ê½ÖÐinvokerµÄ×÷ÓÃ¡£
+### ç®€ä»‹  
+å®¢æˆ·ç«¯ï¼ˆ*client*ï¼Œ**å®¢æˆ·ç«¯æ˜¯å‘½ä»¤çš„è¯·æ±‚è€…**ï¼‰å°†å‘½ä»¤å°è£…æˆå‘½ä»¤å¯¹è±¡ï¼ˆ*command*ï¼Œ**å‘½ä»¤å¯¹è±¡æŒæœ‰æŽ¥æ”¶è€…çš„å¼•ç”¨ï¼Œé€šè¿‡è°ƒç”¨æŽ¥æ”¶è€…çš„åŠŸèƒ½æ¥å®Œæˆå‘½ä»¤çš„æ‰§è¡Œ**ï¼‰ï¼Œå¹¶ç»™å‘½ä»¤å¯¹è±¡è®¾ç½®æŽ¥æ”¶è€…ï¼ˆ*receiver*ï¼Œ**æŽ¥æ”¶è€…æ˜¯çœŸæ­£æ‰§è¡Œå‘½ä»¤çš„å¯¹è±¡**ï¼‰ï¼Œç„¶åŽå°†å‘½ä»¤å¯¹è±¡äº¤ç»™è°ƒç”¨è€…ï¼ˆ*invoker*ï¼Œ**è°ƒç”¨è€…å¯ä»¥æŒæœ‰å¤šä¸ªå‘½ä»¤å¯¹è±¡ï¼Œç›¸å½“äºŽå‘½ä»¤å¯¹è±¡çš„å…¥å£**ï¼‰ï¼Œ***ä»¥åŽ å®¢æˆ·ç«¯ é€šè¿‡è°ƒç”¨ è°ƒç”¨è€… æ¥æ‰§è¡Œå‘½ä»¤ï¼Œè€Œä¸ä¸Ž å‘½ä»¤å¯¹è±¡ ç›´æŽ¥äº¤äº’***ï¼ˆè°ƒç”¨è·¯å¾„ä¸ºï¼šclient =&gt;  invoker =&gt; command =&gt; receiverï¼‰  
+å¯ä»¥çœ‹å‡ºï¼Œå‘½ä»¤æ¨¡å¼çš„ä¸»è¦ç›®çš„æ˜¯ï¼šå°†å‘½ä»¤çš„è¯·æ±‚è€…ï¼ˆclientï¼‰å’Œå‘½ä»¤çš„æ‰§è¡Œè€…ï¼ˆreceiverï¼‰è¿›è¡Œè§£è€¦ã€‚è§£è€¦ä¹‹åŽï¼Œå¯ä»¥*å¯¹è¯·æ±‚è¿›è¡ŒæŽ’é˜Ÿ*ã€*è®°å½•è¯·æ±‚æ—¥å¿—*ã€*æ’¤é”€è¯·æ±‚*ç­‰ã€‚  
+æ¯”å¦‚ï¼Œäººæ“ä½œç©ºè°ƒçš„è¿‡ç¨‹æ˜¯ï¼šäººåœ¨é¥æŽ§å™¨ä¸Šè¾“å…¥å¼€æœºã€åˆ¶å†·ã€å…³æœºç­‰å‘½ä»¤ï¼›é¥æŽ§å™¨é€šè¿‡çº¢å¤–çº¿æŠŠå‘½ä»¤å‘é€ç»™ç©ºè°ƒï¼Œç„¶åŽç©ºè°ƒæ‰§è¡Œå‘½ä»¤ã€‚å¾ˆæ˜¾ç„¶ï¼Œäººæ˜¯clientï¼Œæ¯ä¸ªåŠŸèƒ½éƒ½æ˜¯ä¸€ä¸ªcommandï¼Œé¥æŽ§å™¨æ˜¯invokerï¼Œç©ºè°ƒæ˜¯receiverã€‚éœ€è¦é¢å¤–æ³¨æ„çš„æ˜¯ï¼Œé¥æŽ§å™¨æ˜¯å‘½ä»¤çš„å”¯ä¸€å…¥å£ï¼Œäººåªä¼šä¸Žé¥æŽ§å™¨è¿›è¡Œäº¤äº’ï¼Œè€Œä¸ä¼šä¸Žç©ºè°ƒç›´æŽ¥äº¤äº’ï¼Œè¿™å°±æ˜¯å‘½ä»¤æ¨¡å¼ä¸­invokerçš„ä½œç”¨ã€‚
 
 ---
 
-### ½ÇÉ«
+### è§’è‰²
 
-* Client
+* Client  
 * Command
-³éÏóÀà»ò½Ó¿Ú
-* ConcreteCommand
-ÊµÏÖ³éÏóÃüÁî½ÇÉ«
-* receiver
-* invoker
+* ConcreteCommand  
+* receiver  
+* invoker  
 
 ---
 
-### UMLÀàÍ¼  
+### UMLç±»å›¾  
 
-![command.png](http://timd.cn/content/images/2017/07/command.png)
+![command.png](http://timd.cn/content/images/2017/07/command.png)  
