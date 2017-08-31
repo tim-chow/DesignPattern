@@ -1,6 +1,6 @@
 ### 设计模式
 
-本项目对各种设计模式从**概念**、**角色**、**UML类图**三个维度进行了简要介绍。目前有Java/Python/Scala实现，后面会加入Golang等，并一直在更新，欢迎提交PR。  
+本项目对各种设计模式从**概念**、**角色**、**UML类图**三个维度进行了简要介绍。目前有Java/Python/Scala/PHP实现，后面会加入Golang等，并一直在更新，欢迎提交PR。  
 
 设计模式分为三类：
 
@@ -44,3 +44,4 @@
 
 * [timchow](http://timd.cn)  
 * [CanyellWang](https://github.com/CanyellWang)  
+* [snuser](https://github.com/snuser)  
