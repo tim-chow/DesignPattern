@@ -10,11 +10,11 @@
 客户希望的目标接口，可以是抽象的，也可以是具体的类
 * Adaptee：  
 要被适配的类
-* Adapter：
+* Adapter：  
 通过封装一个需要适配的类的对象，将原接口转换成目标接口  
 
 ---
 
 ### UML类图
 
-![adapter.png](http://timd.cn/content/images/pictures/adapter-3.png)  
+![adapter.png](http://images.timd.cn/design-pattern/adapter.png)  
