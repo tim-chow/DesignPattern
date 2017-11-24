@@ -22,4 +22,4 @@
 
 ### UML类图  
 
-![observer.png](http://timd.cn/content/images/pictures/observer.png)  
+![observer.png](http://images.timd.cn/design-pattern/observer.png)  
