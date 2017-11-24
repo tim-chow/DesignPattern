@@ -15,5 +15,4 @@
 
 ### UML类图  
 
-![strategy.png](http://timd.cn/content/images/pictures/strategy.png)  
-
+![strategy.png](http://images.timd.cn/design-pattern/strategy.png)  
