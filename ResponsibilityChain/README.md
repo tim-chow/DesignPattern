@@ -19,4 +19,4 @@
 
 ### UML类图  
 
-![responsibility-chain](http://timd.cn/content/images/pictures/responsibility-chain.png)  
+![responsibility-chain](http://images.timd.cn/design-pattern/responsibility-chain.png)  
