@@ -24,4 +24,4 @@
 
 ### UML类图  
 
-![mediator](http://timd.cn/content/images/pictures/mediator.png)  
+![mediator](http://images.timd.cn/design-pattern/mediator.png)  
