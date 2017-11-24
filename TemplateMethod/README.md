@@ -16,4 +16,4 @@
 
 ### UML类图  
 
-![tempalte-method.png](template-method)  
+![tempalte-method.png](http://images.timd.cn/design-pattern/template-method.png)  
