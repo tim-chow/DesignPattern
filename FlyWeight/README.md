@@ -36,4 +36,4 @@
 
 ### UML类图  
 
-![flyweight.png](http://timd.cn/content/images/pictures/flyweight.png)  
+![flyweight.png](http://images.timd.cn/design-pattern/flyweight.png)  
