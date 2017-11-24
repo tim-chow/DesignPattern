@@ -19,4 +19,4 @@
 
 ### UML类图  
 
-![interpreter-1.png](http://timd.cn/content/images/pictures/interpreter-1.png)  
+![interpreter.png](http://images.timd.cn/design-pattern/interpreter.png)  
