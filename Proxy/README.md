@@ -33,4 +33,4 @@
 
 ### UML类图  
 
-![proxy.png](http://timd.cn/content/images/pictures/proxy.png)   
+![proxy.png](http://images.timd.cn/design-pattern/proxy.png)   
