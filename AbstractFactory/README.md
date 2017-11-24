@@ -20,5 +20,4 @@
 
 ### UML类图  
  
-![abstract-factory.png](http://timd.cn/content/images/pictures/abstract-factory.png)
-  
+![abstract-factory.png](http://images.timd.cn/design-pattern/abstract-factory.png)  
