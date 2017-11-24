@@ -25,4 +25,4 @@
 
 ### UML类图  
 
-![visitor.png](http://timd.cn/content/images/pictures/visitor-3.png)    
+![visitor.png](http://images.timd.cn/design-pattern/visitor.png)    
