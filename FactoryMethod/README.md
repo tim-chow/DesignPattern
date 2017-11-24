@@ -19,5 +19,4 @@
 
 ### UML类图  
 
-![factory-method.png](http://timd.cn/content/images/pictures/factory-method.png)  
-
+![factory-method.png](http://images.timd.cn/design-pattern/factory-method.png)  
