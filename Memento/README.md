@@ -22,4 +22,4 @@
 
 ### UML类图  
 
-![memento](http://timd.cn/content/images/pictures/memento.png)  
+![memento](http://images.timd.cn/design-pattern/memento.png)  
