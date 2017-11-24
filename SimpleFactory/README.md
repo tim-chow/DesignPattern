@@ -17,6 +17,4 @@
 
 ### UML类图  
 
-![simple-factory.png](http://timd.cn/content/images/pictures/simple-factory-1.png)   
-
-
+![simple-factory.png](http://images.timd.cn/design-pattern/simple-factory.png)  
