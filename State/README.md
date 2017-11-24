@@ -17,4 +17,4 @@
 
 ### UML类图   
 
-![state.png](http://timd.cn/content/images/pictures/state.png)  
+![state.png](http://images.timd.cn/design-pattern/state.png)  
