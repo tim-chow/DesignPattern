@@ -1,34 +1,36 @@
 import types
 
-class Factory:
+
+class SimpleFactory(object):
     @staticmethod
     def create(product_class_name, *a, **kw):
         clazz = globals().get(product_class_name)
-        if isinstance(clazz,
-            (types.TypeType, types.ClassType)):
+        if clazz != None:
             return clazz(*a, **kw)
-        raise RuntimeError("no class named: %s found" 
+        raise RuntimeError("no class named: %s was found" 
             % product_class_name)
 
+
 class Phone(object):
+    def __init__(self, branch, os):
+        self._branch = branch
+        self._os = os
+
     def say(self):
         print("I am " + self._branch + 
-            ", and my os is: " + self._os)
+            ", and my OS is: " + self._os)
 
-class Oneplus(Phone):
-    def __init__(self, os):
-        self._branch = "Oneplus"
-        self._os = os
 
 class IPhone(Phone):
     def __init__(self, os):
-        self._branch = "IPhone"
-        self._os = os
+        super(self.__class__, self).__init__("IPhone", os)
 
-def test():
-    Factory.create("IPhone", "IOS8").say()
-    Factory.create("Oneplus", "Android7").say()
+
+class Oneplus(Phone):
+    def __init__(self, os):
+        super(self.__class__, self).__init__("Oneplus", os)
 
 if __name__ == "__main__":
-    test()
+    SimpleFactory.create("IPhone", "IOS8").say()
+    SimpleFactory.create("Oneplus", "Android7").say()
 
