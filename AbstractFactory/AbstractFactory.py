@@ -1,71 +1,77 @@
-from abc import ABCMeta, abstractmethod
+# coding: utf8
 
-class Car:
-    __metaclass__ = ABCMeta
+import abc
 
-    @abstractmethod
+
+class Television(object):
+    def __init__(self, branch):
+        self._branch = branch
+
     def say(self):
+        print("I am %s television" % self._branch)
+
+
+class TCLTelevision(Television):
+    def __init__(self):
+        Television.__init__(self, "TCL")
+
+
+class HaierTelevision(Television):
+    def __init__(self):
+        Television.__init__(self, "Haier")
+
+
+class AirCondition(object):
+    def __init__(self, branch):
+        self._branch = branch
+
+    def say(self):
+        print("I am %s aircondition" % self._branch)
+
+
+class TCLAirCondition(AirCondition):
+    def __init__(self):
+        AirCondition.__init__(self, "TCL")
+
+
+class HaierAirCondition(AirCondition):
+    def __init__(self):
+        AirCondition.__init__(self, "Haier")
+
+
+class AbstractFactory(object):
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def create_television(self):
         pass
 
-class AudiCar(Car):
-    pass
-
-class AudiA4(AudiCar):
-    def say(self):
-        print("I am Audi A4")
-
-class AudiQ5(AudiCar):
-    def say(self):
-        print("I am Audi Q5")
-
-class BMWCar(Car):
-    pass
-
-class BMWX1(Car):
-    def say(self):
-        print("I am BMW X1")
-
-class BMW3X(Car):
-    def say(self):
-        print("I am BMW 3X")
-
-class CarFactory:
-    __metaclass__ = ABCMeta
-
-    def create_audi(self):
-        return self.create_audi_car()
-    
-    def create_audi_car(self):
+    @abc.abstractmethod
+    def create_aircondition(self):
         pass
 
-    def create_bmw(self):
-        return self.create_bmw_car()
 
-    def create_bmw_car(self):
-        pass
+class TCLFactory(AbstractFactory):
+    def create_television(self):
+        return TCLTelevision()
 
-class AudiA4Factory(CarFactory):
-    def create_audi_car(self):
-        return AudiA4()
+    def create_aircondition(self):
+        return TCLAirCondition()
 
-class AudiQ5Factory(CarFactory):
-    def create_audi_car(self):
-        return AudiQ5()
 
-class BMWX1Factory(CarFactory):
-    def create_bmw_car(self):
-        return BMWX1()
+class HaierFactory(AbstractFactory):
+    def create_television(self):
+        return HaierTelevision()
 
-class BMW3XFactory(CarFactory):
-    def create_bmw_car(self):
-        return BMW3X()
+    def create_aircondition(self):
+        return HaierAirCondition()
 
-def test():
-    AudiA4Factory().create_audi().say()
-    AudiQ5Factory().create_audi().say()
-    BMWX1Factory().create_bmw().say()
-    BMW3XFactory().create_bmw().say()
 
 if __name__ == "__main__":
-    test()
+    tcl_factory = TCLFactory()
+    tcl_factory.create_television().say()
+    tcl_factory.create_aircondition().say()
 
+    haier_factory = HaierFactory()
+    haier_factory.create_television().say()
+    haier_factory.create_aircondition().say()
