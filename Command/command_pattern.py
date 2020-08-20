@@ -144,7 +144,7 @@ class Client(object):
         shutting_down_commander = ShuttingDownCommand(air_condition)
         refrigeration_commander = RefrigerationCommand(air_condition)
 
-        # 创建接收者，并设置命令对象
+        # 创建调用者，并设置命令对象
         remote_controller = RemoteController()
         remote_controller.set_starting_up_commander(starting_up_commander)
         remote_controller.set_shutting_down_commander(shutting_down_commander)
