@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
+import os
 
-class Node:
+
+class Node(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -12,7 +14,7 @@ class Node:
         pass
 
     @abstractmethod
-    def get_sub_node(self):
+    def get_sub_nodes(self):
         pass
 
     @abstractmethod
@@ -24,8 +26,26 @@ class Node:
         pass
 
     @abstractmethod
-    def tree(self):
+    def get_files(self):
         pass
+
+    @abstractmethod
+    def delete_node_by_name(self, name):
+        pass
+
+    @classmethod
+    def tree(cls, node, prefix=""):
+        if not node.is_composite():
+            return [os.path.join(prefix, node.get_name())]
+
+        nodes = []
+        for sub_node in node.get_sub_nodes():
+            if not sub_node.is_composite():
+                nodes.append(os.path.join(prefix, node.get_name(), sub_node.get_name()))
+                continue
+            nodes.extend(cls.tree(sub_node, os.path.join(prefix, node.get_name())))
+        return nodes
+
 
 class File(Node):
     def __init__(self, name):
@@ -37,17 +57,21 @@ class File(Node):
     def get_name(self):
         return self._name
 
-    def get_sub_node(self):
-        raise RuntimeError(self._name + " is not directory")
-    
+    def get_sub_nodes(self):
+        raise RuntimeError()
+
     def get_node_by_name(self, name):
-        raise RuntimeError(self._name + " is not directory")
+        raise RuntimeError()
 
     def add_node(self, node):
-        raise RuntimeError(self._name + " is not directory")
+        raise RuntimeError()
 
-    def tree(self):
-        print self._name
+    def get_files(self):
+        return self._name
+
+    def delete_node_by_name(self, name):
+        raise RuntimeError()
+
 
 class Directory(Node):
     def __init__(self, name):
@@ -60,8 +84,8 @@ class Directory(Node):
     def get_name(self):
         return self._name
 
-    def get_sub_node(self):
-        return self._map
+    def get_sub_nodes(self):
+        return self._map.values()
 
     def get_node_by_name(self, name):
         return self._map[name]
@@ -69,28 +93,24 @@ class Directory(Node):
     def add_node(self, node):
         self._map[node.get_name()] = node
 
-    def tree(self):
-        self.__class__._tree("", self)
+    def delete_node_by_name(self, name):
+        self._map.pop(name)
 
-    @classmethod
-    def _tree(cls, prefix, node):
-        print prefix + node.get_name()
-        if not node.is_composite():
-            return
-        for _, subnode in node.get_sub_node().iteritems():
-            cls._tree(prefix + " " * (len(node.get_name()) + 1), subnode)
+    def get_files(self):
+        return self.tree(self)
+
 
 if __name__ == "__main__":
-    root = Directory("/")
+    root = Directory("")
     root.add_node(Directory("etc"))
     root.add_node(Directory("lib"))
     etc = root.get_node_by_name("etc")
     lib = root.get_node_by_name("lib")
     etc.add_node(File("my.cnf"))
+    etc.add_node(File("ld.so.conf"))
+    etc.add_node(Directory("yum.repos.d"))
     lib.add_node(File("ld.so"))
+    yum_repos_d = etc.get_node_by_name("yum.repos.d")
+    yum_repos_d.add_node(File("CentOS-Base.repo"))
 
-    my_cnf = etc.get_node_by_name("my.cnf")
-    my_cnf.tree()
-
-    root.tree()
-
+    print(root.get_files())
