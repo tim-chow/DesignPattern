@@ -1,43 +1,93 @@
-class Subject:
-    def __init__(self):
-        self._observers = set()
+# coding: utf8
 
+import abc
+
+
+class Subject(object):
+    """抽象主题"""
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
     def add_observer(self, observer):
-        if observer:
-            self._observers.add(observer)
-    
+        pass
+
+    @abc.abstractmethod
     def remove_observer(self, observer):
-        if observer:
-            self._observers.remove(observer)
+        pass
+
+    @abc.abstractmethod
+    def notify(self):
+        pass
+
 
 class ConcreteSubject(Subject):
-    def __init__(self, *a, **kw):
-        Subject.__init__(self, *a, **kw)
+    """具体主题"""
+    def __init__(self):
+        self._observers = set()
         self._state = None
 
-    def set_state(self, state):
-        self._state = state
-        self.notify_observers()
+    def add_observer(self, observer):
+        self._observers.add(observer)
 
-    def notify_observers(self):
+    def remove_observer(self, observer):
+        self._observers.remove(observer)
+
+    def notify(self):
         for observer in self._observers:
             observer.update(self._state)
 
-class Observer:
-    def update(self, state):
-        raise NotImplementedError("not implemented")
+    def set_state(self, state):
+        self._state = state
+        self.notify()
 
-class ConcreteObserver(Observer):
+
+class Observer(object):
+    """抽象观察者"""
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
     def update(self, state):
-        print("current state is: %s" % state)
+        pass
+
+
+class ConcreteObserver1(Observer):
+    """具体观察者"""
+    def update(self, state):
+        print("update state to %s in ConcreteObserver1" % state)
+
+
+class ConcreteObserver2(Observer):
+    """具体观察者"""
+    def update(self, state):
+        print("update state to %s in ConcreteObserver2" % state)
+
 
 if __name__ == "__main__":
-    subject = ConcreteSubject()
-    observer = ConcreteObserver()
-    subject.add_observer(observer)
+    import unittest
 
-    subject.set_state("on")
-    subject.set_state("off")
-    subject.remove_observer(observer)
-    subject.set_state("on")
 
+    class ObserverTest(unittest.TestCase):
+        def testObserver(self):
+            # 创建主题对象
+            subject = ConcreteSubject()
+
+            # 创建观察者对象
+            observer1 = ConcreteObserver1()
+            observer2 = ConcreteObserver2()
+
+            # 添加观察者
+            subject.add_observer(observer1)
+            subject.add_observer(observer2)
+
+            # 改变主题状态
+            subject.set_state(1)
+            subject.set_state(2)
+
+            # 移除观察者
+            subject.remove_observer(observer1)
+            subject.remove_observer(observer2)
+
+            # 改变主题状态
+            subject.set_state(3)
+
+    unittest.main()
