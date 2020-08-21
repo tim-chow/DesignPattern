@@ -1,55 +1,84 @@
-from abc import ABCMeta, abstractmethod
+# coding: utf8
+
 import threading
+import abc
 
-class Fruit:
-    __metaclass__ = ABCMeta
 
-    @abstractmethod
-    def calc_amount(self, weight):
+class Singleton(object):
+    """单例类的父类"""
+    instances = {}
+    lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls in Singleton.instances:
+            return Singleton.instances[cls]
+
+        with Singleton.lock:
+            if cls not in Singleton.instances:
+                Singleton.instances[cls] = super(Singleton, cls) \
+                    .__new__(cls, *args, **kwargs)
+            return Singleton.instances[cls]
+
+
+class Shape(object):
+    """"抽象享元角色 - 形状"""
+    def __init__(self, color):
+        self._color = color
+
+    @abc.abstractmethod
+    def draw(self, *args, **kwargs):
         pass
 
-class FruitImpl(Fruit):
-    def __init__(self, name, unit_price):
-        self._name = name
-        self._unit_price = unit_price
+    @property
+    def color(self):
+        return self._color
 
-    def calc_amount(self, weight):
-        return weight * self._unit_price
 
-class FruitFactory:
+class Circle(Shape):
+    """具体享元角色 - 圆形"""
+    def draw(self, radius):
+        print("draw a %s circle with radius %f" % (self.color, radius))
+
+
+class Rectangle(Shape):
+    """具体享元角色 - 矩形"""
+    def draw(self, width, height):
+        print("draw a %s rectangle with width %f and height %f" % (
+            self.color,
+            width,
+            height
+        ))
+
+
+class ShapeFactory(Singleton):
+    """享元工厂"""
+    name_to_shape = {"circle": Circle, "rectangle": Rectangle}
+    map = {}
     lock = threading.Lock()
-    instance = None
-    NAME_2_PRICE = {
-        "banana": 20,
-        "apple": 21,
-    }
-
-    def __init__(self):
-        self._lock = threading.Lock()
-        self._map = {}
 
     @classmethod
-    def get_instance(cls):
+    def get_shape(cls, name, color):
+        if (name, color) in cls.map:
+            return cls.map[(name, color)]
+        if name not in cls.name_to_shape:
+            raise ValueError("unknown name")
         with cls.lock:
-            if not cls.instance:
-                cls.instance = FruitFactory()
-            return cls.instance
+            if (name, color) not in cls.map:
+                cls.map[(name, color)] = cls.name_to_shape[name](color)
+            return cls.map[(name, color)]
 
-    def factory(self, name):
-        price = self.__class__.NAME_2_PRICE.get(name)
-        if not price:
-            raise RuntimeError("invalid name")
-
-        with self._lock:
-            if name not in self._map:
-                self._map[name] = FruitImpl(name, price)
-            return self._map[name]
 
 if __name__ == "__main__":
-    factory = FruitFactory.get_instance()
-    apple = factory.factory("apple")
-    apple1 = factory.factory("apple")
-    banana = factory.factory("banana")
-    print apple == apple1
-    nothing = factory.factory("nothing")
+    import unittest
 
+
+    class FlyWeightTest(unittest.TestCase):
+        def testFlyWeight(self):
+            circle_red = ShapeFactory.get_shape("circle", "red")
+            for _ in range(10):
+                self.assertIs(circle_red, ShapeFactory.get_shape("circle", "red"))
+            
+            circle_blue = ShapeFactory.get_shape("circle", "blue")
+            self.assertTrue(circle_blue is not circle_red)
+
+    unittest.main()
