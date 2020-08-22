@@ -1,47 +1,50 @@
-from abc import ABCMeta, abstractmethod
+# coding: utf8
 
-class Request:
-    pass
+import abc
 
-class Handler:
-    __metaclass__ = ABCMeta
 
-    def __init__(self):
-        self._next_handler = None
+class Handler(object):
+    __metaclass__ = abc.ABCMeta
 
-    @abstractmethod
-    def process_request(self, request):
-        pass
-
-    def set_next_handler(self, next_handler):
+    def __init__(self, next_handler=None):
         self._next_handler = next_handler
 
-    def get_next_handler(self):
+    def handle(self, request):
+        self._handle(request)
+        if self.next_handler is not None:
+            self.next_handler.handle(request)
+
+    @abc.abstractmethod
+    def _handle(self, request):
+        pass
+
+    @property
+    def next_handler(self):
         return self._next_handler
 
-class ConcreteHandler1(Handler):
-    def process_request(self, request):
-        print("ConcreteHandler1: " + 
-            "I am processing request: %s" % request)
 
-        if self.get_next_handler():
-            self.get_next_handler().process_request(request)
+class ConcreteHandler1(Handler):
+    def _handle(self, request):
+        print("handle request in ConcreteHandler1")
+
 
 class ConcreteHandler2(Handler):
-    def process_request(self, request):
-        print("ConcreteHandler2: " + 
-            "I am processing request: %s" % request)
+    def _handle(self, request):
+        print("handle request in ConcreteHandler2")
 
-        if self.get_next_handler():
-            self.get_next_handler().process_request(request)
-
-def client():
-    handler1 = ConcreteHandler1()
-    handler2 = ConcreteHandler2()
-    handler1.set_next_handler(handler2)
-
-    handler1.process_request(Request())
 
 if __name__ == "__main__":
-    client()
+    import unittest
 
+
+    class ResponsibilityChainTest(unittest.TestCase):
+        def testResponsibilityChain(self):
+            class Request(object):
+                pass
+
+            handler2 = ConcreteHandler2()
+            handler1 = ConcreteHandler1(handler2)
+            handler1.handle(Request())
+
+
+    unittest.main()
