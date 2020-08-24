@@ -1,84 +1,87 @@
-#coding: utf8
+# coding: utf8
+
 from abc import ABCMeta, abstractmethod
 
-context = {"number": {}, "unit": {}}
-context["number"][u"零"] = 0
-context["number"][u"一"] = 1
-context["number"][u"二"] = 2
-context["number"][u"三"] = 3
-context["number"][u"四"] = 4
-context["number"][u"五"] = 5
-context["number"][u"六"] = 6
-context["number"][u"七"] = 7
-context["number"][u"八"] = 8
-context["number"][u"九"] = 9
 
-context["unit"][u"十"] = 10
-context["unit"][u"百"] = 100
-context["unit"][u"千"] = 1000
-context["unit"][u"万"] = 10000
-context["unit"][u"亿"] = 100000000
-
-class Expression:
+class Expression(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def interpreter(self, context):
+    def interpret(self):
         pass
 
     @abstractmethod
-    def get_priority(self, context):
+    def get_priority(self):
         pass
 
+
 class NumberExpression(Expression):
+    cn_to_number = {}
+    cn_to_number[u"零"] = 0
+    cn_to_number[u"一"] = 1
+    cn_to_number[u"二"] = 2
+    cn_to_number[u"三"] = 3
+    cn_to_number[u"四"] = 4
+    cn_to_number[u"五"] = 5
+    cn_to_number[u"六"] = 6
+    cn_to_number[u"七"] = 7
+    cn_to_number[u"八"] = 8
+    cn_to_number[u"九"] = 9
+
     def __init__(self, chinese_number):
-        self._cn = chinese_number 
+        self._cn = chinese_number
 
-    def interpreter(self, context):
-        return context["number"][self._cn]
+    def interpret(self):
+        return self.cn_to_number[self._cn]
 
-    def get_priority(self, context):
+    def get_priority(self):
         return 1
 
+
 class UnitExpression(Expression):
+    unit_to_number = {}
+    unit_to_number[u"十"] = 10 ** 1
+    unit_to_number[u"百"] = 10 ** 2
+    unit_to_number[u"千"] = 10 ** 3
+    unit_to_number[u"万"] = 10 ** 4
+    unit_to_number[u"亿"] = 10 ** 8
+
     def __init__(self, unit, lefts):
         self._unit = unit
         self._lefts = lefts
 
-    def interpreter(self, context):
-        base = sum([left.interpreter(context) for
-            left in self._lefts])
-        return base * context["unit"][self._unit]
+    def interpret(self):
+        base = sum([left.interpret() for left in self._lefts])
+        return base * self.unit_to_number[self._unit]
 
-    def get_priority(self, context):
-        return context["unit"][self._unit]
+    def get_priority(self):
+        return self.unit_to_number[self._unit]
 
-class Converter:
-    def __init__(self):
-        pass
 
-    def convert(self, chinese_number):
-        global context
-        cn = chinese_number
+class Context(object):
+    def __init__(self, chinese_number):
+        self._cn = chinese_number
+
+    def convert(self):
         stack = []
 
-        for word in cn:
-            if word == u"零":
+        for char in self._cn:
+            if char == u"零":
                 continue
-            if word in context["number"]:
-                stack.append(NumberExpression(word))
+            if char in NumberExpression.cn_to_number:
+                stack.append(NumberExpression(char))
                 continue
-            if word in context["unit"]:
+            if char in UnitExpression.unit_to_number:
                 lefts = []
-                for ind in range(len(stack)-1, -1, -1):
-                    if stack[ind].get_priority(context) > \
-                        context["unit"][word]:
+                for ind in range(len(stack) - 1, -1, -1):
+                    if stack[ind].get_priority() > UnitExpression.unit_to_number[char]:
                         break
                     lefts.insert(0, stack.pop(ind))
-                stack.append(UnitExpression(word, lefts))
-        return sum(item.interpreter(context) for item in stack)
+                stack.append(UnitExpression(char, lefts))
+                continue
+            raise ValueError("unknown character")
+        return sum(item.interpret() for item in stack)
+
 
 if __name__ == "__main__":
-    input_string = raw_input(u"请输入汉字表示：".encode("utf8"))
-    print Converter().convert(unicode(input_string, "utf8"))
-
+    print(Context(u"三千二百五十亿四千三百万八千一百二十九").convert())
