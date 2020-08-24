@@ -1,140 +1,155 @@
-import datetime
-from abc import ABCMeta, abstractmethod
+# coding: utf8
 
-class Visitor:
-    @abstractmethod
-    def visit_apple_element(self, apple_element):
+import abc
+
+
+class Visitor(object):
+    """
+    抽象访问者
+    """
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def visit_fruit(self, fruit):
         pass
 
-    @abstractmethod
-    def visit_book_element(self, book_element):
+    @abc.abstractmethod
+    def visit_book(self, book):
         pass
 
-class Consumer(Visitor):
-    def visit_apple_element(self, apple_element):
-        if (apple_element.get_expire_date() 
-            - datetime.datetime.now() > datetime.timedelta(0)
-            and apple_element.is_perfect()):
-            return True
-        return False
-
-    def visit_book_element(self, book_element):
-        return apple_element.is_perfect()
 
 class Cashier(Visitor):
-    def visit_apple_element(self, apple_element):
-        return apple_element.get_price()
+    """
+    具体访问者 - 收银员
+    """
+    def visit_book(self, book):
+        return book.get_price()
 
-    def visit_book_element(self, book_element):
-        return book_element.get_price()
+    def visit_fruit(self, fruit):
+        return fruit.get_price()
 
-class Element:
-    @abstractmethod
+
+class Customer(Visitor):
+    """
+    具体访问者 - 顾客
+    """
+    def visit_book(self, book):
+        return book.is_in_good_condition()
+
+    def visit_fruit(self, fruit):
+        return fruit.is_fresh()
+
+
+class Goods(object):
+    """抽象元素 - 商品"""
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
     def accept(self, visitor):
         pass
 
-class AppleElement(Element):
-    def __init__(self, expire_date, price):
-        self._expire_date = expire_date
-        self._price = price
-
+    @abc.abstractmethod
     def get_price(self):
-        return self._price
-    
-    def get_expire_date(self):
-        return self._expire_date
+        pass
 
-    def is_perfect(self):
-        return True
+
+class Fruit(Goods):
+    """具体元素 - 水果"""
+    def __init__(self, price, is_fresh):
+        self._price = price
+        self._is_fresh = is_fresh
 
     def accept(self, visitor):
-        return visitor.visit_apple_element(self)
-# end class AppleElement
+        return visitor.visit_fruit(self)
 
-class BookElement(Element):
-    def __init__(self, price):
-        self._price = price
+    def is_fresh(self):
+        return self._is_fresh
 
     def get_price(self):
         return self._price
 
-    def is_perfect(self):
-        return True
+    def __str__(self):
+        return "Fruit{price=%f, fresh=%s}" % (
+            self._price, self._is_fresh)
+
+
+class Book(Goods):
+    """
+    具体元素 - 图书
+    """
+    def __init__(self, price, is_in_good_condition):
+        self._price = price
+        self._is_in_good_condition = is_in_good_condition
+
+    def is_in_good_condition(self):
+        return self._is_in_good_condition
 
     def accept(self, visitor):
-        return visitor.visit_book_element(self)
-# end class BookElement
+        return visitor.visit_book(self)
 
-class Iterator:
-    """
-remove elements while iterating `sequence`(
-    `remove` method must be invocated after `next`)
-for example:
+    def get_price(self):
+        return self._price
 
-```    
-this_is_a_list = range(100)
-iterator = Iterator(this_is_a_list)
+    def __str__(self):
+        return "Book{price=%f, condition=%s}" % (
+            self._price, self._is_in_good_condition)
 
-while iterator.has_next():
-    element = iterator.next()
-    if some_condition(element):
-        iterator.remove()
-```
-    """
-    def __init__(self, sequence):
+
+class ObjectStructure(object):
+    def __init__(self, array):
+        self._array = array
         self._cursor = 0
-        self._sequence = sequence
 
     def has_next(self):
-        if self._cursor < len(self._sequence):
-            return True
-        return False
+        return self._cursor < len(self._array)
 
     def next(self):
-        result = self._sequence[self._cursor]
-        self._cursor = self._cursor + 1
-        return result
+        try:
+            return self._array[self._cursor]
+        finally:
+            self._cursor = self._cursor + 1
 
     def remove(self):
         self._cursor = self._cursor - 1
-        self._sequence.pop(self._cursor)
+        self._array.pop(self._cursor)
 
     def rewind(self):
         self._cursor = 0
 
-class ObjectStructure:
-    def __init__(self):
-        self._container = []
 
-    def add_element(self, element):
-        self._container.append(element)
+def test():
+    # 商品列表
+    array = list()
+    array.append(Book(1, True))
+    array.append(Book(2, True))
+    array.append(Book(3, False))
+    array.append(Fruit(1, True))
+    array.append(Fruit(2, False))
+    array.append(Fruit(3, True))
 
-    def remove_element(self, element):
-        self._container.remove(element)
-
-    def iterator(self):
-        return Iterator(self._container)
-
-if __name__ == "__main__":
-    object_structure = ObjectStructure()
-    apple_element = AppleElement(
-        datetime.datetime.strptime("2017-5-21 00:00:00",
-            "%Y-%m-%d %H:%M:%S"), 1500)
-    book_element = BookElement(1000)
-    object_structure.add_element(apple_element)
-    object_structure.add_element(book_element)
-
-    consumer = Consumer()
+    object_structure = ObjectStructure(array)
+    customer = Customer()
     cashier = Cashier()
 
-    iterator = object_structure.iterator()
-    while iterator.has_next():
-        if not iterator.next().accept(consumer):
-            iterator.remove()
+    # 顾客逐个检查商品
+    while object_structure.has_next():
+        goods = object_structure.next()
+        state = goods.accept(customer)
+        # 移除不好的商品
+        if not state:
+            object_structure.remove()
 
-    iterator.rewind()
-    sum = 0
-    while iterator.has_next():
-        sum = sum + iterator.next().accept(cashier)
-    print("sum = %s" % sum)
+    # 保证收银员从头开始访问
+    object_structure.rewind()
 
+    # 收银员逐个计算价格
+    prices = 0
+    while object_structure.has_next():
+        goods = object_structure.next()
+        prices = prices + goods.accept(cashier)
+
+    print("total prices %f" % prices)
+
+
+if __name__ == "__main__":
+    test()
