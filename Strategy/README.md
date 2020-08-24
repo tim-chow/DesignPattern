@@ -1,18 +1,1 @@
-### 简介  
-策略模式定义了一系列**算法**，并把每一个算法**封装**起来，使得它们可以互相**替换**。*策略模式让算法可以独立于使用它们的客户而独立变化*。  
-具体选择哪一个*算法*，由客户根据自身的逻辑决定的。  
-
-### 角色  
-
-* Context  
-上下文角色。它持有一个 *具体策略对象* 的引用    
-* Strategy   
-抽象策略角色。它给所有的具体策略角色定义公共的接口
-* ConcreteStrategy    
-具体策略角色。它**封装了算法或行为**  
-
----
-
-### UML类图  
-
-![strategy.png](http://images.timd.cn/design-pattern/strategy.png)  
+请参考：[http://timd.cn/design-pattern/strategy/](http://timd.cn/design-pattern/strategy/)
