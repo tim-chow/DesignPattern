@@ -1,76 +1,79 @@
-class Snapshot:
+# coding: utf8
+
+import datetime
+
+
+class Memento(object):
+    def __init__(self, old_content):
+        self._content = old_content
+        self._created_at = datetime.datetime.now()
+
+    def get_content(self):
+        return self._content
+
+    @property
+    def created_at(self):
+        return self._created_at
+
+
+class Originator(object):
     def __init__(self, content):
         self._content = content
 
-    @property
-    def content(self):
+    def set_content(self, new_content):
+        self._content = new_content
+
+    def create_memento(self):
+        return Memento(self._content)
+
+    def recover_from_memento(self, memento):
+        self._content = memento.get_content()
+
+    def get_content(self):
         return self._content
 
-    @content.setter
-    def content(self, *a, **kw):
-        raise RuntimeError("illegal action")
 
-class Caretaker:
-    _queue = []
-    _max_size = 10
+class Caretaker(object):
+    def __init__(self, max_count):
+        self._max_count = max_count
+        self._list = []
 
-    @classmethod
-    def set_max_size(cls, max_size):
-        cls._max_size = max_size
+    def add_memento(self, memento):
+        if len(self._list) == self._max_count:
+            self._list.pop(0)
+        self._list.append(memento)
 
-    @classmethod
-    def add_snapshot(cls, snapshot):
-        if len(cls._queue) >= cls._max_size:
-            cls._queue.pop(0)
-        cls._queue.append(snapshot)
+    def remove_memento(self, memento_id):
+        self._list.pop(memento_id)
 
-    @classmethod
-    def get_snapshot(cls, offset=0):
-        if offset >= len(cls._queue):
-            return 
-        return cls._queue[offset]
+    def get_memento_count(self):
+        return len(self._list)
 
-class Editor:
-    def __init__(self, content):
-        self._content = content
+    def get_memento(self, memento_id):
+        return self._list[memento_id]
 
-    def create_snapshot(self):
-        return Snapshot(self._content)
 
-    def recover_from_snapshot(self, snapshot):
-        self._content = snapshot.content
+def test():
+    caretaker = Caretaker(5)
 
-    def change_content(self, start_offset, end_offset, new_content):
-        self._content = self._content[:start_offset] + \
-            new_content + self._content[end_offset + 1:]
+    originator = Originator("content #1")
+    for ind in range(2, 7):
+        originator.set_content("content #%d" % ind)
+        memento = originator.create_memento()
+        caretaker.add_memento(memento)
 
-    @property
-    def content(self):
-        return self._content
+    assert caretaker.get_memento_count() == 5
+
+    for memento_id in range(caretaker.get_memento_count()):
+        memento = caretaker.get_memento(memento_id)
+        print("%s created at %s" % (memento.get_content(), memento.created_at))
+
+    print("current content of originator is %s" % originator.get_content())
+
+    originator.recover_from_memento(caretaker.get_memento(0))
+
+    print("current content of originator is %s" % originator.get_content())
+
 
 if __name__ == "__main__":
-    editor = Editor("this is a original content")
-    print(editor.content)
-
-    print("create a snapshot")
-    snapshot = editor.create_snapshot()
-    Caretaker.add_snapshot(snapshot)
-
-    print("change content")
-    editor.change_content(8, 17, "another")
-    print(editor.content)
-
-    print("create a snapshot")
-    snapshot = editor.create_snapshot()
-    Caretaker.add_snapshot(snapshot)
-
-    print("recover from snapshot[0]")
-    snapshot = Caretaker.get_snapshot(0)
-    editor.recover_from_snapshot(snapshot)
-    print(editor.content)
-
-    print("recover from snapshot[1]")
-    snapshot = Caretaker.get_snapshot(1)
-    editor.recover_from_snapshot(snapshot)
-    print(editor.content)
-
+    test()
