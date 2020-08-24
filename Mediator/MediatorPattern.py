@@ -1,67 +1,78 @@
-#coding: utf8
+# coding: utf8
 
 import threading
 
-class User:
-    def __init__(self, name, chatroom):
+
+class User(object):
+    def __init__(self, name, chat_room):
         self._name = name
-        # 具体同事对象 需要保存 具体中介者对象 的引用
-        self._chatroom = chatroom
-        self._chatroom.add_user(self)
+        # 具体同事对象需要保存具体中介者对象的引用
+        self._chat_room = chat_room
+        self._chat_room.add_user(self)
 
     @property
     def name(self):
         return self._name
 
     def receive_message(self, from_user_name, message):
-        print("[%s recieves a message from %s]: %s" %
-            (self._name, from_user_name, message))
+        print("[%s receives a message from %s]: %s" %
+              (self._name, from_user_name, message))
 
     def send_message(self, message, to_user_names=None):
-        self._chatroom.send_message(self, message, to_user_names)
+        self._chat_room.send_message(self.name, message, to_user_names)
 
-class ChatRoom:
+
+class ChatRoom(object):
     instance = None
     lock = threading.Lock()
 
     @classmethod
     def get_instance(cls):
+        if cls.instance is not None:
+            return cls.instance
+
         with cls.lock:
-            if not cls.instance:
+            if cls.instance is None:
                 cls.instance = ChatRoom()
             return cls.instance
 
     def __init__(self):
-        # 具体中介者对象 需要保存 所有的 具体同事对象 的引用
+        # 具体中介者对象需要保存所有具体同事对象的引用
         # + 具体中介者对象
-        # + + 既需要从 具体同事对象 那里接收消息
-        # + + 又需要向 具体同事对象 那里发送消息
+        # + + 既需要从具体同事对象那里接收消息
+        # + + 又需要向具体同事对象那里发送消息
         self._users = {}
 
     def add_user(self, user):
         self._users[user.name] = user
 
     def remove_user(self, user_name):
-        return self._users.pop(user_name, None)
+        return self._users.pop(user_name)
 
-    # 抽象中介者角色需要 定义 同事对象到中介者对象 之间的接口
-    def send_message(self, from_user, message, to_user_names=None):
+    def send_message(self, from_user_name, message, to_user_names=None):
         if to_user_names is None:
             for user_name, user in self._users.iteritems():
-                user.receive_message(from_user.name, message)
+                if user_name == from_user_name:
+                    continue
+                user.receive_message(from_user_name, message)
             return
         for user_name in to_user_names:
             if user_name in self._users:
-                self._users[user_name].receive_message(from_user.name, message)
+                self._users[user_name].receive_message(from_user_name, message)
+
+
+def test():
+    chat_room = ChatRoom.get_instance()
+
+    users = []
+    for i in range(1, 10):
+        users.append(User("user_%d" % i, chat_room))
+
+    users[0].send_message("hello everyone")
+    users[1].send_message("%s, I have something to ask you" % users[2].name,
+                          [users[2].name])
+    users[2].send_message("please say", [users[1].name])
+
 
 if __name__ == "__main__":
-    chatroom = ChatRoom.get_instance()
-
-    for i in range(1, 10):
-        username = "user%d" % i
-        locals()[username] = User(username, chatroom)
-    user1.send_message("hello everyone")
-
-    user1.send_message("user3, I have something to ask you.", ["user3"])
-    user3.send_message("user1, please say,", ["user1"])
-
+    test()
