@@ -1,54 +1,68 @@
-from abc import ABCMeta, abstractmethod
+# coding: utf8
+
+import abc
+
 
 class Shape(object):
-    def __init__(self, drawer=None):
-        self._drawer = drawer
+    __metaclass__ = abc.ABCMeta
 
-    @property
-    def drawer(self):
-        return self._drawer
+    def __init__(self, color=None):
+        self._color = color
 
-    @drawer.setter
-    def drawer(self, drawer):
-        self._drawer = drawer
-
-    def draw(self, *a, **kw):
-        self._drawer.draw(*a, **kw)
-
-class CircleShape(Shape):
-    def __init__(self, radius):
-        super(self.__class__, self).__init__(CircleDrawer())
-        self._radius = radius
-
+    @abc.abstractmethod
     def draw(self):
-        super(self.__class__, self).draw(self._radius)
-
-class RectangleShape(Shape):
-    def __init__(self, length, width):
-        super(self.__class__, self).__init__(RectangleDrawer())
-        self._length = length
-        self._width = width
-
-    def draw(self):
-        super(self.__class__, self).draw(self._length, self._width)
-
-class Drawer:
-    __metaclass__ = ABCMeta
-   
-    @abstractmethod
-    def draw(self, *a, **kw):
         pass
 
-class CircleDrawer(Drawer):
-    def draw(self, radius):
-        print("I am a circle, my radius is: %s^_^" % radius)
+    def draw_shape(self):
+        self.draw()
+        if self._color is not None:
+            self._color.bepaint()
 
-class RectangleDrawer(Drawer):
-    def draw(self, length, width):
-        print("I am a rectangle, my length is %s,"
-            " width is %so_o" % (length, width))
+    def set_color(self, color):
+        self._color = color
+
+
+class CircleShape(Shape):
+    def draw(self):
+        print("画一个圆形")
+
+
+class SquareShape(Shape):
+    def draw(self):
+        print("画一个正方形")
+
+
+class Color(object):
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def bepaint(self):
+        pass
+
+
+class BlackColor(Color):
+    def bepaint(self):
+        print("染成黑色")
+
+
+class GreenColor(Color):
+    def bepaint(self):
+        print("染成绿色")
+
+
+def test():
+    circle = CircleShape()
+    square = SquareShape()
+
+    black = BlackColor()
+    green = GreenColor()
+
+    circle.set_color(black)
+    square.set_color(green)
+
+    circle.draw_shape()
+    square.draw_shape()
+
 
 if __name__ == "__main__":
-    CircleShape(100).draw()
-    RectangleShape(100, 200).draw()
-
+    test()
