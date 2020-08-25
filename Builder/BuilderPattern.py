@@ -1,82 +1,85 @@
-from abc import ABCMeta, abstractmethod
+# coding: utf8
 
-## new style class
+import abc
+
+
 class Product(object):
+    """产品类"""
     def __init__(self):
-        self._part1 = None
-        self._part2 = None
+        self._part_a = None
+        self._part_b = None
 
-    @property
-    def part1(self):
-        return self._part1
+    def get_part_a(self):
+        return self._part_a
 
-    @part1.setter
-    def part1(self, part1):
-        self._part1 = part1
+    def get_part_b(self):
+        return self._part_b
 
-    @property
-    def part2(self):
-        return self._part2
+    def set_part_a(self, part_a):
+        self._part_a = part_a
 
-    @part2.setter
-    def part2(self, part2):
-        self._part2 = part2
+    def set_part_b(self, part_b):
+        self._part_b = part_b
 
-    def __str__(self):
-        return "Product{part1=%s, part2=%s}" \
-             % (self._part1, self._part2)
-    __repr__ = __str__
-# end class Product
 
-class Builder:
-    __metaclass__ = ABCMeta
+class Builder(object):
+    """抽象建造者"""
+    __metaclass__ = abc.ABCMeta
 
-    @abstractmethod
-    def buildPart1(self):
+    def __init__(self):
+        self._product = Product()
+
+    @abc.abstractmethod
+    def build_part_a(self):
         pass
 
-    @abstractmethod
-    def buildPart2(self):
+    @abc.abstractmethod
+    def build_part_b(self):
         pass
-# end class Builder
+
+    def build(self):
+        return self._product
+
 
 class ConcreteBuilder1(Builder):
-    def __init__(self):
-        self._product = Product()
+    def build_part_a(self):
+        self._product.set_part_a("ConcreteBuilder1 part a")
 
-    def build(self):
-        return self._product
+    def build_part_b(self):
+        self._product.set_part_b("ConcreteBuilder1 part b")
 
-    def buildPart1(self):
-        self._product.part1 = "Construct by ConcretBuilder1"
-
-    def buildPart2(self):
-        self._product.part2 = "Construct by ConcretBuilder1"
 
 class ConcreteBuilder2(Builder):
-    def __init__(self):
-        self._product = Product()
+    def build_part_a(self):
+        self._product.set_part_a("ConcreteBuilder2 part a")
 
-    def build(self):
-        return self._product
+    def build_part_b(self):
+        self._product.set_part_b("ConcreteBuilder2 part b")
 
-    def buildPart1(self):
-        self._product.part1 = "Construct by ConcretBuilder2"
 
-    def buildPart2(self):
-        self._product.part2 = "Construct by ConcretBuilder2"
+class Director(object):
+    """指挥者"""
+    def create_product(self, builder):
+        builder.build_part_a()
+        builder.build_part_b()
+        return builder.build()
 
-class Director:
-    def constructProduct(self, builder):
-        builder.buildPart2()
-        builder.buildPart1()
-        return builder.build();
+
+def test():
+    director = Director()
+
+    concrete_builder_1 = ConcreteBuilder1()
+    concrete_builder_2 = ConcreteBuilder2()
+
+    product_1 = director.create_product(concrete_builder_1)
+    product_2 = director.create_product(concrete_builder_2)
+
+    print(product_1.get_part_a())
+    print(product_1.get_part_b())
+
+    print(product_2.get_part_a())
+    print(product_2.get_part_b())
+
 
 if __name__ == "__main__":
-    director = Director()
-    builder1 = ConcreteBuilder1()
-    builder2 = ConcreteBuilder2()
-
-    print(director.constructProduct(builder2))
-    print(director.constructProduct(builder1))
-
+    test()
